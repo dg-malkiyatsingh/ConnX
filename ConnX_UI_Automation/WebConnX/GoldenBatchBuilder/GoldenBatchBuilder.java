@@ -112,7 +112,7 @@ public class GoldenBatchBuilder {
  	try{
  		password=driver.findElement(By.name(password_id));
  		chkpassword.log(LogStatus.INFO, "Get pasword ID");
- 		password.sendKeys("conx");
+ 		password.sendKeys("123456");
  		chkpassword.log(LogStatus.PASS, "Input password");
  		
  	}catch (Exception e){
