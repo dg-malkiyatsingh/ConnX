@@ -53,5 +53,15 @@
 	<classpathentry kind="lib" path="Sel_Lib/xalan-2.7.1.jar"/>
 	<classpathentry kind="lib" path="Sel_Lib/xercesImpl-2.11.0.jar"/>
 	<classpathentry kind="lib" path="Sel_Lib/xml-apis-1.4.01.jar"/>
+	<classpathentry kind="lib" path="CucumberJar/cucumber-core-1.2.0.jar"/>
+	<classpathentry kind="lib" path="CucumberJar/cucumber-html-0.2.3.jar"/>
+	<classpathentry kind="lib" path="CucumberJar/cucumber-java-1.2.0.jar"/>
+	<classpathentry kind="lib" path="CucumberJar/cucumber-junit-1.2.0.jar"/>
+	<classpathentry kind="lib" path="CucumberJar/cucumber-jvm-deps-1.0.5.jar"/>
+	<classpathentry kind="lib" path="CucumberJar/cucumber-spring-1.2.0.jar"/>
+	<classpathentry kind="lib" path="CucumberJar/cucumber-testng-1.2.4.jar"/>
+	<classpathentry kind="lib" path="CucumberJar/gherkin-2.12.2.jar"/>
+	<classpathentry kind="lib" path="CucumberJar/gherkin-jvm-deps-1.0.3.jar"/>
+	<classpathentry kind="lib" path="CucumberJar/junit-4.12.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
