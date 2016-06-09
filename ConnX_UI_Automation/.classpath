@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="WebConnX"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre8"/>
 	<classpathentry kind="lib" path="ExtentReport_lib/extentreports-java-2.04.jar"/>
 	<classpathentry kind="lib" path="POI_lib/commons-logging-1.1.jar"/>
 	<classpathentry kind="lib" path="POI_lib/dom4j-1.6.1.jar"/>
