@@ -46,7 +46,7 @@ public class GBB {
 		driver.findElement(By.xpath( "//button[contains(text(),'Login')]")).click();
 	}
 
-	@When("^Click on GBB tab$")
+	@When("^Click on GBB tablet$")
 	public void ClickGBBTab() throws Throwable {
 		driver.findElement(By.xpath( "/html/body/div[3]/div/div/ul/li[4]/a")).click();
 	}
@@ -56,7 +56,7 @@ public class GBB {
 		driver.findElement(By.xpath( "//span[contains(text(), 'New GB Template')]")).click();
 	}
 
-	@And("^Insert record$")
+	@And("^Insert/update record$")
 	public void CreateGBTemplate(DataTable TemplateRecord) throws Throwable {
 		
 		List<List<String>> TempRec = TemplateRecord.raw();
@@ -89,17 +89,38 @@ public class GBB {
 		System.out.println("Record Added Succesfully");
 	}
 
+	@Then("^Search Parameter$")
+	public void search_Parameter() throws Throwable {
+		System.out.println("Test Search Parameter");
+		driver.findElement(By.xpath("//input[@name='name']")).sendKeys("malkiyat");
+		
+	}
+
+	@Then("^Delete the name from GBB Page$")
+	public void delete_the_name_from_GBB_Page() throws Throwable {
+		
+	}
+
+	/*@Then("^Insert/update record$")
+	public void insert_update_record() throws Throwable {
+		
+	}*/
+	
 	@And("^logout ConnX$")
 	public void logoutConnX() throws Throwable {
 		
-	System.out.println("Logout");
+	
 	}
 
 	@Then("^close the browser$")
 	public void CloseBrowser() throws Throwable {
 		
-		driver.close();
-		driver.quit();
+		//driver.close();
+		//driver.quit();
 	}
 
+	
+	
+	
+	
 }
