@@ -25,16 +25,16 @@ public class GBB {
 	public void reportsetup(){
 		this.extent = new ExtentReports("D://ConnX.html", true);
 		extent.config().documentTitle("ConnX Suite").reportName("Summary :").reportHeadline("ConnX Automation Report").insertCustomStyles(".test { border:2px solid #444; }");
-		
-	}
-	
-	@Given("^open browser and Go to URL$")
-	public void OpenBrowserURL() throws Throwable {
 		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-		driver.get("http://connxdev.appsandbox.tk/");
 		driver.manage().window().maximize();
+	}
+	
+	@Given("^open browser and Go to URL \"(.*?)\"$")
+	public void OpenBrowserURL(String URL) throws Throwable {
+		driver.get(URL);
 		
+	
 	}
 
 	@And("^Provide vaild credentials$")
@@ -46,7 +46,7 @@ public class GBB {
 		driver.findElement(By.xpath( "//button[contains(text(),'Login')]")).click();
 	}
 
-	@When("^Click on GBB tablet$")
+	@When("^Click on GBB tab$")
 	public void ClickGBBTab() throws Throwable {
 		driver.findElement(By.xpath( "/html/body/div[3]/div/div/ul/li[4]/a")).click();
 	}
@@ -88,39 +88,33 @@ public class GBB {
 		
 		System.out.println("Record Added Succesfully");
 	}
-
-	@Then("^Search Parameter$")
-	public void search_Parameter() throws Throwable {
-		System.out.println("Test Search Parameter");
-		driver.findElement(By.xpath("//input[@name='name']")).sendKeys("malkiyat");
-		
-	}
-
-	@Then("^Delete the name from GBB Page$")
-	public void delete_the_name_from_GBB_Page() throws Throwable {
-		
-	}
-
-	/*@Then("^Insert/update record$")
-	public void insert_update_record() throws Throwable {
-		
-	}*/
 	
+
+	@Then("^Search \"(.*?)\"$")
+	public void search(String SearchParameter) throws Throwable {
+		
+		String[] Search=SearchParameter.split("-");
+		if(Search[0].trim().equals("Name")){
+			driver.findElement(By.xpath("//input[@name='name']")).sendKeys(Search[1].trim());	
+		}
+
+		driver.findElement(By.xpath("//*[contains(text(),'Search')]")).click();
+		
+	}
+
+	@And("^update record$")
+	public void update_record() throws Throwable {
+	}
+
 	@And("^logout ConnX$")
-	public void logoutConnX() throws Throwable {
-		
-	
+	public void logout_ConnX() throws Throwable {
+
 	}
 
 	@Then("^close the browser$")
-	public void CloseBrowser() throws Throwable {
-		
-		//driver.close();
-		//driver.quit();
+	public void close_the_browser() throws Throwable {
+		driver.close();
+		driver.quit();
 	}
 
-	
-	
-	
-	
 }
