@@ -3,9 +3,14 @@ package GoldenBatchBuilder;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import junit.framework.Assert;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.relevantcodes.extentreports.ExtentReports;
 
@@ -19,6 +24,7 @@ import cucumber.api.java.en.When;
 public class GBB {
 	
 	WebDriver driver = null;
+	WebDriverWait wait = null;
 	public ExtentReports extent;
 	
 	@Before
@@ -28,6 +34,7 @@ public class GBB {
 		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
+		wait = new WebDriverWait(driver, 10);
 	}
 	
 	@Given("^open browser and Go to URL \"(.*?)\"$")
@@ -78,43 +85,120 @@ public class GBB {
 		driver.findElement(By.xpath("//span[@id='select2-chosen-4']")).click();
 		driver.findElement(By.xpath("//ul[@id='select2-results-4']//*[contains(text(),'"+TempRec.get(6).get(1)+"')]")).click();
 	
+		if(TempRec.get(7).get(1).equals("True")){
 		driver.findElement(By.id("enabled")).click();
-		
+		}else{
+			System.out.println("");
+		}
 		driver.findElement(By.xpath("//*[contains(text(),'Submit')]")).click();
+		
+		
 	}
 
 	@Then("^validate record message$")
-	public void validate_record_message() throws Throwable {
+	public void ValidateTemplateAdded() throws Throwable {
 		
-		System.out.println("Record Added Succesfully");
+		Thread.sleep(2000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='toast-container']//div[@class='toast-title']")));
+		
+		String MessageTitle=driver.findElement(By.xpath("//div[@id='toast-container']//div[@class='toast-title']")).getText();
+		
+		if(MessageTitle.equalsIgnoreCase("Success")){
+												
+			String SuccessMessage=driver.findElement(By.xpath("//div[@id='toast-container']//div[@class='toast-message']")).getText();
+			System.out.println("Success :"+SuccessMessage);
+											
+		}else if(MessageTitle.equalsIgnoreCase("Error")){
+		
+				String FailedMessage=driver.findElement(By.xpath("//div[@id='toast-container']//div[@class='toast-message']")).getText();
+				System.out.println("Error :"+FailedMessage);
+		
+		}
+		
+		
 	}
 	
 
-	@Then("^Search \"(.*?)\"$")
+	@Then("^Search/Delete \"(.*?)\"$")
 	public void search(String SearchParameter) throws Throwable {
+
 		
 		String[] Search=SearchParameter.split("-");
-		if(Search[0].trim().equals("Name")){
-			driver.findElement(By.xpath("//input[@name='name']")).sendKeys(Search[1].trim());	
-		}
-
-		driver.findElement(By.xpath("//*[contains(text(),'Search')]")).click();
 		
+				if(Search[0].trim().equalsIgnoreCase("Search") || Search[0].trim().equalsIgnoreCase("Delete")){
+				if(Search[1].trim().equals("Name")){
+					
+					driver.findElement(By.xpath("//input[@name='name']")).sendKeys(Search[2].trim());	
+				
+					wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'Search')]")));
+					driver.findElement(By.xpath("//*[contains(text(),'Search')]")).click();
+					
+				    Thread.sleep(3000);
+					List<WebElement> Searchcount= driver.findElements(By.xpath("//table[@id='datatable_ajax']/tbody/tr"));
+					//System.out.println("size of result"+Searchcount.size());
+					if(Searchcount.size()==1){
+						
+						if(Search[0].trim().equalsIgnoreCase("Search")){
+							String Template_Name=driver.findElement(By.xpath("//table[@id='datatable_ajax']/tbody/tr/td[2]")).getText();
+									if(Template_Name.equals(Search[2].trim())){
+									}else{	
+									Assert.fail("Template Name Not Matched");
+									}
+							}else{
+								
+								driver.findElement(By.xpath("//table[@id='datatable_ajax']/tbody/tr/td[9]/a[2]")).click();
+								wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='connx_delete_confirm']//button[@id='connx_delete_confirm_model']")));	
+								driver.findElement(By.xpath("//div[@id='connx_delete_confirm']//button[@id='connx_delete_confirm_model']")).click();
+								
+								wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='toast-container']//div[@class='toast-title']")));
+								String MessageTitle=driver.findElement(By.xpath("//div[@id='toast-container']//div[@class='toast-title']")).getText();
+								
+								if(MessageTitle.equalsIgnoreCase("Success")){
+																		
+									String SuccessMessage=driver.findElement(By.xpath("//div[@id='toast-container']//div[@class='toast-message']")).getText();
+									System.out.println("Success :"+SuccessMessage);
+																	
+								}else if(MessageTitle.equalsIgnoreCase("Error")){
+								
+										String FailedMessage=driver.findElement(By.xpath("//div[@id='toast-container']//div[@class='toast-message']")).getText();
+										System.out.println("Error :"+FailedMessage);
+								
+								}
+																
+							}
+					
+					}else{
+						Assert.fail("Template Count Not Matched");
+					}
+				}
+		
+				}
+		
+	
 	}
 
-	@And("^update record$")
-	public void update_record() throws Throwable {
+	
+	@Then("^Delete \"(.*?)\"$")
+	public void Delete(String SearchParameter) throws Throwable {
+		
+		
 	}
 
 	@And("^logout ConnX$")
 	public void logout_ConnX() throws Throwable {
+		Thread.sleep(3000);
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='dropdown dropdown-user']//span")));
+		driver.findElement(By.xpath("//li[@class='dropdown dropdown-user']//span")).click();
+		//Thread.sleep(3000);
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@class='dropdown-menu dropdown-menu-default']//li[4]//i")));
+		driver.findElement(By.xpath("//ul[@class='dropdown-menu dropdown-menu-default']//li[4]//i")).click();
 
 	}
 
 	@Then("^close the browser$")
 	public void close_the_browser() throws Throwable {
-		driver.close();
+		//driver.close();
 		driver.quit();
+		
 	}
-
 }

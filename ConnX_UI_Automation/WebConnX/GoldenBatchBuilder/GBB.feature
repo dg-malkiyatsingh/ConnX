@@ -12,7 +12,7 @@ Feature: Validate Fuctional Test on Golden Batch Builder Page
     Then Click on GB template
     And Insert/update record
       | Field          | Value       |
-      | Name           | Ms1        |
+      | Name           | M95         |
       # Bussiness Unit options :Downstream , Upstream
       | Bussiness Unit | Downstream  |
       | Product        | PR1         |
@@ -26,13 +26,22 @@ Feature: Validate Fuctional Test on Golden Batch Builder Page
     And logout ConnX
     Then close the browser
 
-  Scenario: Edit/update GBB Template
+  Scenario: Search GBB Template
     And Provide vaild credentials
       | Field    | Value          |
       | Username | admin@connx.tk |
       | Password |         123456 |
     When Click on GBB tab
-    Then Search "Name-GBT2"
-    And update record
+    Then Search/Delete "Search-Name-M95"
+    And logout ConnX
+    Then close the browser
+
+  Scenario: Delete GBB Template
+    And Provide vaild credentials
+      | Field    | Value          |
+      | Username | admin@connx.tk |
+      | Password |         123456 |
+    When Click on GBB tab
+    Then Search/Delete "Delete-Name-M95"
     And logout ConnX
     Then close the browser
